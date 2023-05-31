@@ -1,4 +1,10 @@
 {
+  "azureFunctions.deploySubpath": ".",
+  "azureFunctions.postDeployTask": "npm install (functions)",
+  "azureFunctions.projectLanguage": "JavaScript",
+  "azureFunctions.projectRuntime": "~4",
+  "debug.internalConsoleOptions": "neverOpen",
+  "azureFunctions.preDeployTask": "npm prune (functions)"
   /**
    * Controls whether suggestions should be accepted on commit characters.
    * For example, in JavaScript, the semi-colon (;) can be a commit character that accepts a suggestion and types that character.
