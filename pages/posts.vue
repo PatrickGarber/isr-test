@@ -17,7 +17,7 @@ export default {
     };
   },
   async created() {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const response = await fetch('https://64775ba49233e82dd53b8230.mockapi.io/api/v1/posts');
     this.posts = await response.json();
   },
 };
