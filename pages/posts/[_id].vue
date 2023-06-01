@@ -5,20 +5,13 @@
     <div v-else>
       <h1>{{ post.title }}</h1>
       <p>{{ post.body }}</p>
-      <h3>API URL:</h3>
-      <p>{{ apiUrl }}</p>
-      <h3>API Response:</h3>
-      <pre>{{ apiResponse }}</pre>
-      <h3>Build Time:</h3>
-      <p>{{ buildTime }}</p>
-      <h3>API Response Time:</h3>
-      <p>{{ apiResponseTime }}</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import postsData from '~/public/posts.json'; // Import the local JSON file
 
 interface Post {
   id: string;
@@ -30,39 +23,21 @@ export default defineComponent({
   data() {
     return {
       post: null as Post | null,
-      loading: true,
+      loading: false,
       error: '',
-      apiUrl: '',
-      apiResponse: '',
-      buildTime: '',
-      apiResponseTime: '',
     };
   },
-  beforeCreate() {
-    const currentTime = new Date();
-    this.buildTime = currentTime.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-    });
-  },
-  async created() {
+  beforeMount() {
     const postId = this.$route.params._id;
-    this.apiUrl = `https://64775ba49233e82dd53b8230.mockapi.io/api/v1/posts/${postId}`;
 
-    try {
-      const response = await fetch(this.apiUrl);
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
-      this.post = data;
-      this.apiResponse = JSON.stringify(data, null, 2);
-    } catch (error) {
-      this.error = error.message;
+    // Find the post with the matching ID in the imported data
+    const post = postsData.find((p: Post) => p.id === postId);
+
+    if (!post) {
+      this.error = 'Post not found';
+    } else {
+      this.post = post;
     }
-
-    this.loading = false;
   },
 });
 </script>
