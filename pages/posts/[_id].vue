@@ -5,7 +5,6 @@
     <div v-else>
       <h1>{{ post?.title }}</h1>
       <p>{{ post?.body }}</p>
-      <p>Page Generated: {{ pageGenerated }}</p>
     </div>
   </div>
 </template>
@@ -18,7 +17,6 @@ interface Post {
   id: string;
   title: string;
   body: string;
-  image: string;
 }
 
 export default defineComponent({
@@ -27,7 +25,6 @@ export default defineComponent({
       post: null as Post | null,
       loading: false,
       error: '',
-      pageGenerated: process.env.BUILD_TIMESTAMP || '', // Use the build-time timestamp
     };
   },
   beforeMount() {
