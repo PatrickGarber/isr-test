@@ -3,11 +3,10 @@
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">Error: {{ error }}</div>
     <div v-else>
-      <img :src="post.image" :alt="post.title" class="post-image" />
-      <h1>{{ post.title }}</h1>
-      <p>{{ post.body }}</p>
-      <p>Post ID: {{ post.id }}</p>
-    </div>
+      <img :src="post?.image" :alt="post?.title" class="post-image" />
+      <h1>{{ post?.title }}</h1>
+      <p>{{ post?.body }}</p>
+      <p>Post ID: {{ post?.id }}</p>
   </div>
 </template>
 
