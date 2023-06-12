@@ -3,15 +3,15 @@
     <div v-if="loading">Loading...</div>
     <div v-else-if="error">Error: {{ error }}</div>
     <div v-else>
-      <h1>{{ post.title }}</h1>
-      <p>{{ post.body }}</p>
+      <h1>{{ post?.title }}</h1>
+      <p>{{ post?.body }}</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import postsData from '~/public/posts.json'; // Import the local JSON file
+import postsData from '../../static/posts.json'; // Import the local JSON file
 
 interface Post {
   id: string;

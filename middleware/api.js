@@ -14,7 +14,7 @@ export default function (req, res, next) {
       }
 
       // Write the data to the posts.json file
-      fs.writeFileSync('public/posts.json', JSON.stringify(response.data, null, 2), 'utf-8');
+      fs.writeFileSync('static/posts.json', JSON.stringify(response.data, null, 2), 'utf-8');
 
       // Success!
       console.log('File fetched from API and written locally!');
