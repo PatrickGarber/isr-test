@@ -8,6 +8,7 @@
       <p>{{ post?.body }}</p>
       <p>Post ID: {{ post?.id }}</p>
   </div>
+  </div>
 </template>
 
 <script lang="ts">
