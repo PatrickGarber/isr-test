@@ -6,7 +6,7 @@ const { execSync } = require('child_process');
 // API URL to monitor
 const apiUrl = 'https://64775ba49233e82dd53b8230.mockapi.io/api/v1/posts';
 
-// Function to check for API changes
+// Function to check for API changes and trigger rebuild for specific pages
 async function checkApiChanges() {
   try {
     // Fetch the current data from the API
@@ -17,14 +17,27 @@ async function checkApiChanges() {
     const filePath = path.join(__dirname, 'lastData.json');
     let lastData = [];
     if (fs.existsSync(filePath)) {
-      lastData = JSON.parse(fs.readFileSync(filePath));
+      lastData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     }
 
     // Compare the current and last fetched data
-    if (JSON.stringify(currentData) !== JSON.stringify(lastData)) {
-      // Trigger a rebuild in Azure Static Web Apps
-      console.log('API data has changed. Triggering a rebuild...');
-      execSync('az staticwebapp build --source .');
+    const updatedPageIds = [];
+    const unchangedPageIds = [];
+    currentData.forEach((currentItem) => {
+      const lastItem = lastData.find((item) => item.id === currentItem.id);
+      if (!lastItem || JSON.stringify(currentItem) !== JSON.stringify(lastItem)) {
+        // Page has changed or is new
+        updatedPageIds.push(currentItem.id);
+      } else {
+        // Page remains unchanged
+        unchangedPageIds.push(currentItem.id);
+      }
+    });
+
+    if (updatedPageIds.length > 0) {
+      // Trigger a rebuild for updated pages in Azure Static Web Apps
+      console.log('Updated page IDs:', updatedPageIds);
+      execSync(`az staticwebapp build --source . --api-changes=${updatedPageIds.join(',')}`);
     } else {
       console.log('No changes in API data.');
     }
